@@ -1,6 +1,5 @@
 import os
 import argparse
-output_dir = "subsets"
 
 def count_char_type(password):
     # Returns the amount of characters in each password.
@@ -14,7 +13,7 @@ def count_char_type(password):
 def load_blocklist(blocklist):
     # Load blocklist into set
     blocked_passwords = set()
-    with open(blocklist, "r") as f:
+    with open(blocklist, "r", encoding="latin-1") as f:
         for line in f:
             blocked_passwords.add(line.rstrip("\r\n"))
         return blocked_passwords
@@ -24,27 +23,30 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--corpus", required=True, help="Path to corpus")
     parser.add_argument("--blocklist", required=True, help="Path to Blocklist")
+    # Inlcuded output to account for different corpora being used in study
+    parser.add_argument("--output", required=True, help="Output directory for subsets from different corpera")
     parser.add_argument("--len8", type=int, default=8, help="Composition policy of 8 characters")
     parser.add_argument("--len12", type=int, default=12, help="Composition policy of 12 characters")
     args = parser.parse_args()
 
-    os.makedirs(output_dir, exist_ok=True)
+    # Creates subset folder for passwords that fit within the password policies
+    os.makedirs(args.output, exist_ok=True)
     blocked = load_blocklist(args.blocklist)
     # Test to check the blocklist loaded
-    print ("Blocklist entries:", len(blocked))
+    # print ("Blocklist entries:", len(blocked))
 
     output_files = {
-        "len8": open(os.path.join(output_dir, "len8.txt"), "w"),
-        "len12": open(os.path.join(output_dir, "len12.txt"), "w"),
-        "composition": open(os.path.join(output_dir, "composition.txt"), "w"),
-        "blocklist": open(os.path.join(output_dir, "blocklist.txt"), "w"),
+        "len8": open(os.path.join(args.output, "len8.txt"), "w", encoding="latin-1"),
+        "len12": open(os.path.join(args.output, "len12.txt"), "w", encoding="latin-1"),
+        "composition": open(os.path.join(args.output, "composition.txt"), "w", encoding="latin-1"),
+        "blocklist": open(os.path.join(args.output, "blocklist.txt"), "w", encoding="latin-1"),
     }
 
-    # Counts total passwords that meets the policies
+    # Counts total passwords +  passwords that meets the policies
     counter = {i: 0 for i in output_files}
     total = 0
 
-    with open(args.corpus, "r") as f:
+    with open(args.corpus, "r", encoding="latin-1") as f:
         for line in f:
             password = line.rstrip("\r\n")
             if not password:
@@ -75,7 +77,7 @@ def main():
     print ("Total passwords read:", total)
     for policy, n in counter.items():
         percentage = (n / total * 100) if total else 0
-        print (policy, ":", n, ("(") + str(round(percentage, 1)), "% of corpus)")
+        print (policy, ":", n, ("(") + str(round(percentage, 1)) + "%", "of corpus fit into this policy)")
 
 if __name__ == "__main__":
     main()
