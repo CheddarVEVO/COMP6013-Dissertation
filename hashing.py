@@ -1,12 +1,14 @@
 import os
 import argparse
 import hashlib
+import bcrypt
 
 def main():
-    # CLI arguments to parse subset file as an input and then output it as a hash file (currently MD5)
+    # CLI arguments to parse subset file as an input and then output it as a hash file
     parser = argparse.ArgumentParser()
     parser.add_argument("--input", required =True, help="Plaintext subset file")
     parser.add_argument("--output", required =True, help="Output hash file")
+    parser.add_argument("--hash", default="md5", choices=["md5", "bcrypt"], help="Hashing algorithm to use")
     args = parser.parse_args()
 
     out_dir = os.path.dirname(args.output)
@@ -26,7 +28,13 @@ def main():
                 total += 1
 
                 # MD5 encoding
-                hash = hashlib.md5(password.encode("latin-1")).hexdigest()
+                if args.hash == "md5":
+                    hash = hashlib.md5(password.encode("latin-1")).hexdigest()
+                
+                # bcrypt encoding
+                elif args.hash == "bcrypt":
+                    hash = bcrypt.hashpw(password.encode("latin-1")[:72], bcrypt.gensalt(rounds=10)).decode("latin-1")
+
                 fout.write(hash + "\n")
                 written += 1
     
