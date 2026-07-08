@@ -45,12 +45,19 @@ def main():
     # Counts total passwords +  passwords that meets the policies
     counter = {i: 0 for i in output_files}
     total = 0
+    # Remove case-sensitive duplicates 
+    seen = set()
 
     with open(args.corpus, "r", encoding="latin-1") as f:
         for line in f:
             password = line.rstrip("\r\n")
             if not password:
                 continue
+
+            if password in seen:
+                continue
+            seen.add(password)
+            
             total += 1
 
             if len(password) >= args.len8:
