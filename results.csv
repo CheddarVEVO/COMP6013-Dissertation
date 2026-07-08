@@ -1,0 +1,17 @@
+tool,hash_type,policy,cracked,total,crack_rate
+hashcat,md5,len8,4239,67606,6.27
+hashcat,md5,len12,221,19874,1.11
+hashcat,md5,composition,231,25606,0.9
+hashcat,md5,blocklist,3734,67100,5.56
+jtr,md5,len8,3258,67606,4.82
+jtr,md5,len12,188,19874,0.95
+jtr,md5,composition,6,25606,0.02
+jtr,md5,blocklist,2943,67100,4.39
+hashcat,bcrypt,len8,0,67606,0
+hashcat,bcrypt,len12,0,19874,0
+hashcat,bcrypt,composition,0,25606,0
+hashcat,bcrypt,blocklist,0,67100,0
+jtr,bcrypt,len8,0,67606,0
+jtr,bcrypt,len12,0,19874,0
+jtr,bcrypt,composition,0,25606,0
+jtr,bcrypt,blocklist,0,67100,0
