@@ -1,4 +1,4 @@
-# Password Policy Effectiveness Against Modern Offline Attacks Dissertation
+# Password Policy Effectiveness Against Modern Offline Attacks
 
 ## Requirements
 - Python 3
