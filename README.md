@@ -1,4 +1,4 @@
-# COMP6013-Dissertation
+# Password Policy Effectiveness Against Modern Offline Attacks Dissertation
 
 ## Requirements
 - Python 3
